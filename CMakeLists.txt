@@ -162,6 +162,6 @@ set_target_properties(${PROJECT_NAME}
 # =======================================================================
 
 # Include utility script that prints a handful of useful build/configuration cmake variables:
-include(cmake-utils)
-print_project_variables()
+#include(cmake-utils)
+#print_project_variables()
 
