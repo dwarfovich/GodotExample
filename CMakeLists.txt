@@ -5,9 +5,13 @@ set(GDEXTENSION_LIB_PATH "${CMAKE_CURRENT_SOURCE_DIR}/project/bin")
 
 option(
   AUTOFORMAT_SRC_ON_CONFIGURE
-    "If enabled, clang-format will be used to format all sources in src/ during configuration"
-        ON
+  "If enabled, clang-format will be used to format all sources in src/ during configuration"
+  ON
 )
+
+set(compiler_is_clang "$<OR:$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:Clang>>")
+set(compiler_is_gnu "$<CXX_COMPILER_ID:GNU>")
+set(compiler_is_msvc "$<CXX_COMPILER_ID:MSVC>")
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_EXTENSIONS ON)
@@ -26,21 +30,18 @@ list(APPEND CMAKE_MODULE_PATH
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake/"
 )
 
-#include(FetchContent)
-
 include(godot-engine)
 include(godot-cpp)
 
-
 file(GLOB_RECURSE gdext_sources
      CONFIGURE_DEPENDS
-       "${CMAKE_CURRENT_SOURCE_DIR}/src/*.[hc]"
-       "${CMAKE_CURRENT_SOURCE_DIR}/src/*.[hc]pp"
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.[hc]"
+     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.[hc]pp"
 )
 
 add_library(${PROJECT_NAME}
     SHARED
-      ${gdext_sources}
+    ${gdext_sources}
 )
 
 include(common_compiler_flags)
@@ -112,7 +113,7 @@ target_link_libraries(${PROJECT_NAME}
     #PRIVATE fmt::fmt-header-only
     #PRIVATE spdlog::spdlog_header_only
 )
-# Tip1: PUBLIC: our .dll depends on the library. PRIVATE: the library is expendable.
+# Tip1: PUBLIC: our .dll depends on the library. PRIVATE: the library is expandable.
 # Tip2: godot::cpp, fmt::fmt etc... each library name is declared by each of it's
 #       respective projects's own CMakeLists.txt, which is reached thanks to vcpkg
 
