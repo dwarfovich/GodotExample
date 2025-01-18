@@ -1,0 +1,9 @@
+[configuration]
+
+entry_symbol = "extension_library_init"
+compatibility_minimum = 4.3
+reloadable = true
+
+[libraries]
+
+windows.debug.x86_64 = "temp_project.windows.64.debug.dll"
